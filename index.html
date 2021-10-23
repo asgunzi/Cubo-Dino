@@ -1,0 +1,168 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+
+<style>
+.slider{
+width:500px;
+}
+</style>
+
+ <title>Cubo Mágico Dino</title>
+ 
+<script src="https://d3js.org/d3.v4.min.js"></script>
+</head>
+<body>
+
+      <h1><a href="https://ideiasesquecidas.com"> <img src=	"https://ideiasesquecidas.files.wordpress.com/2020/03/forgottenlogo.png" width="90" height = "50"></a> Cubo Mágico Dino</h1>
+
+
+<script type = "text/javascript">
+    var svg = d3.select("body")
+        .append("svg")
+        .attr("width", 1020)
+        .attr("height", 1000);
+
+   
+	Desenhar();
+
+	function triangSup(x0,y0,lado) {
+	var strOut = "M ";
+		strOut += String(x0) + " " +  String(y0);
+		strOut += " L " + String(x0 + lado) + " " +  String(y0);
+		strOut += " L " + String(x0 + lado/2) + " " +  String(y0+lado/2);
+		strOut += " Z";
+		return strOut;   // The function returns the product of p1 and p2
+	}
+
+	function triangInf(x0,y0,lado) {
+	var strOut = "M ";
+		strOut += String(x0) + " " +  String(y0);
+		strOut += " L " + String(x0 + lado) + " " +  String(y0);
+		strOut += " L " + String(x0 + lado/2) + " " +  String(y0-lado/2);
+		strOut += " Z";
+		return strOut;   // The function returns the product of p1 and p2
+	}
+	
+	function triangLeft(x0,y0,lado) {
+	var strOut = "M ";
+		strOut += String(x0) + " " +  String(y0);
+		strOut += " L " + String(x0) + " " +  String(y0+lado);
+		strOut += " L " + String(x0 + lado/2) + " " +  String(y0+lado/2);
+		strOut += " Z";
+		return strOut;   // The function returns the product of p1 and p2
+	}
+
+	function triangRight(x0,y0,lado) {
+	var strOut = "M ";
+		strOut += String(x0) + " " +  String(y0);
+		strOut += " L " + String(x0) + " " +  String(y0+lado);
+		strOut += " L " + String(x0 - lado/2) + " " +  String(y0+lado/2);
+		strOut += " Z";
+		return strOut;   // The function returns the product of p1 and p2
+	}
+	
+	function Desenhar()
+	{
+	
+	var triangs =[];
+	var colors =[];
+	var tamanho = 150;
+	
+	svg.selectAll("*").remove();
+
+
+	svg.append("text")
+			.attr("x", 280)
+			.attr("y", 120)
+			.text("Resolver lado inferior e laterais")
+			.attr("font-size",35)
+
+	
+	//Quadrado superior
+	triangs.push(triangSup(2*tamanho,tamanho,tamanho));	
+	triangs.push(triangRight(3*tamanho,tamanho,tamanho));
+	triangs.push(triangInf(2*tamanho,2*tamanho,tamanho));
+	triangs.push(triangLeft(2*tamanho,tamanho,tamanho));
+    colors.push("red");
+	colors.push("red");
+	colors.push("red");
+	colors.push("red");
+	
+	
+	//Quadrado esquerda
+	triangs.push(triangSup(tamanho,2*tamanho,tamanho));	
+	triangs.push(triangRight(2*tamanho,2*tamanho,tamanho));
+	triangs.push(triangInf(tamanho,3*tamanho,tamanho));
+	triangs.push(triangLeft(tamanho,2*tamanho,tamanho));
+	
+	colors.push("green");
+	colors.push("green");
+	colors.push("green");
+	colors.push("green");
+	
+	//Quadrado centro
+	triangs.push(triangSup(2*tamanho,2*tamanho,tamanho));	
+	triangs.push(triangRight(3*tamanho,2*tamanho,tamanho));
+	triangs.push(triangInf(2*tamanho,3*tamanho,tamanho));
+	triangs.push(triangLeft(2*tamanho,2*tamanho,tamanho));
+
+	colors.push("white");
+	colors.push("white");
+	colors.push("white");
+	colors.push("white");
+	
+	//Quadrado direita
+	triangs.push(triangSup(3*tamanho,2*tamanho,tamanho));	
+	triangs.push(triangRight(4*tamanho,2*tamanho,tamanho));
+	triangs.push(triangInf(3*tamanho,3*tamanho,tamanho));
+	triangs.push(triangLeft(3*tamanho,2*tamanho,tamanho));
+
+	colors.push("blue");
+	colors.push("blue");
+	colors.push("blue");
+	colors.push("blue");
+	
+	//Quadrado posterior
+	triangs.push(triangSup(4*tamanho,2*tamanho,tamanho));	
+	triangs.push(triangRight(5*tamanho,2*tamanho,tamanho));
+	triangs.push(triangInf(4*tamanho,3*tamanho,tamanho));
+	triangs.push(triangLeft(4*tamanho,2*tamanho,tamanho));
+
+	colors.push("yellow");
+	colors.push("yellow");
+	colors.push("yellow");
+	colors.push("yellow");
+	
+
+	//Quadrado inferior
+	triangs.push(triangSup(2*tamanho,3*tamanho,tamanho));	
+	triangs.push(triangRight(3*tamanho,3*tamanho,tamanho));
+	triangs.push(triangInf(2*tamanho,4*tamanho,tamanho));
+	triangs.push(triangLeft(2*tamanho,3*tamanho,tamanho));
+
+	colors.push("orange");
+	colors.push("orange");
+	colors.push("orange");
+	colors.push("orange");
+	
+
+	
+	svg.selectAll("path")
+			.data(triangs)
+			.enter()
+		  .append("path")
+		  .attr("d", function(d,i){return triangs[i]})
+		  .attr("stroke", "black")
+		  .attr("stroke-width", 2)
+		  .attr("fill", function(d,i){return colors[i]});
+
+  
+	
+	}
+	
+	
+  </script>
+</body>
+</html>
